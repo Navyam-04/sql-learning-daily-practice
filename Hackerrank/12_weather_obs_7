@@ -1,0 +1,50 @@
+-- =================================================================
+-- Problem: Query the list of CITY names ending with vowels 
+--          (a, e, i, o, u) from STATION. The result cannot 
+--          contain duplicates.
+-- =================================================================
+
+-- Drop the table if it already exists to ensure a clean setup
+IF OBJECT_ID('dbo.STATION', 'U') IS NOT NULL
+    DROP TABLE dbo.STATION;
+GO
+
+-- Create the STATION table
+-- This table stores city names, states, and coordinates.
+CREATE TABLE STATION (
+    ID INT PRIMARY KEY,
+    CITY VARCHAR(21),
+    STATE VARCHAR(2),
+    LAT_N FLOAT,
+    LONG_W FLOAT
+);
+GO
+
+-- Insert sample data into STATION table
+-- Includes cities ending with vowels and consonants for testing.
+INSERT INTO STATION (ID, CITY, STATE, LAT_N, LONG_W) VALUES
+(1, 'Osaka', 'JP', 34.69, 135.50),
+(2, 'Chicago', 'IL', 41.88, -87.63),
+(3, 'Orlando', 'FL', 28.54, -81.38),
+(4, 'Lima', 'PE', -12.04, -77.03),
+(5, 'Hanoi', 'VN', 21.02, 105.85),
+(6, 'Dallas', 'TX', 32.77, -96.79),
+(7, 'Agra', 'IN', 27.18, 78.01),
+(8, 'Osaka', 'JP', 34.69, 135.50);  -- duplicate to test DISTINCT
+GO
+
+-- Verify that the data has been inserted correctly
+SELECT * FROM STATION;
+GO
+
+-- =======================
+-- Solution Query
+-- =======================
+
+/* Write your T-SQL query statement below */
+
+SELECT DISTINCT CITY
+FROM STATION
+WHERE CITY LIKE '%[AEIOU]'    -- Matches cities ending with uppercase vowels
+   OR CITY LIKE '%[aeiou]';   -- Matches cities ending with lowercase vowels (optional)
+GO
