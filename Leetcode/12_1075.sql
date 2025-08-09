@@ -93,13 +93,16 @@ GO
     4. Round the result to two decimal places via ROUND(..., 2).
 */
 SELECT P.project_id,
-       ROUND(
-         (CAST(SUM(E.experience_years) AS FLOAT) / COUNT(P.employee_id)),
-         2
+       CAST(
+         ROUND(
+           SUM(1.0 * E.experience_years) / COUNT(DISTINCT P.employee_id),
+           2
+         ) AS DECIMAL(10,2)
        ) AS average_years
 FROM Project P
-LEFT JOIN Employee E
+JOIN Employee E
   ON P.employee_id = E.employee_id
-GROUP BY P.project_id;
+GROUP BY P.project_id
+ORDER BY P.project_id;
 
 GO
